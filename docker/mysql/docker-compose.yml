@@ -1,0 +1,18 @@
+services:
+  db:
+    container_name: commerce-mysql
+    image: mysql:8.2
+    ports:
+      - "13306:13306"
+    volumes:
+      - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/my.cnf
+    env_file: .env
+    environment:
+      TZ: Asia/Seoul
+    restart: always
+
+networks:
+  commerce-net:
+    external: true
