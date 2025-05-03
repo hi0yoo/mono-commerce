@@ -1,7 +1,7 @@
 package me.hi0yoo.commerce.order.infrastructure.adapter
 
-import jakarta.persistence.EntityNotFoundException
 import jakarta.transaction.Transactional
+import me.hi0yoo.commerce.common.domain.exception.ProductNotFountException
 import me.hi0yoo.commerce.common.domain.id.ProductOptionId
 import me.hi0yoo.commerce.order.application.port.ProductInventoryPort
 import me.hi0yoo.commerce.order.application.port.ReserveStockRequest
@@ -20,7 +20,13 @@ class ProductInventoryAdapter(
         for (request in requests) {
             optionsMap[ProductOptionId(request.vendorId, request.productId, request.optionId)]
                 ?.increaseReservedStockQuantity(request.quantity)
-                ?: throw EntityNotFoundException()
+                ?: throw ProductNotFountException(
+                    ProductOptionId(
+                        request.vendorId,
+                        request.productId,
+                        request.optionId
+                    )
+                )
         }
     }
 }

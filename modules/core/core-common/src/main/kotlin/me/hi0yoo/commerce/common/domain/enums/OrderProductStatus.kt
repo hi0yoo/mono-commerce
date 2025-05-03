@@ -1,4 +1,4 @@
-package me.hi0yoo.commerce.order.domain
+package me.hi0yoo.commerce.common.domain.enums
 
 enum class OrderProductStatus(private val description: String) {
     PENDING("입점사 주문 확인 대기중"),

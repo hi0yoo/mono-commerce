@@ -1,22 +1,22 @@
-package me.hi0yoo.commerce.order.application
+package me.hi0yoo.commerce.api.order
 
 import me.hi0yoo.commerce.common.domain.enums.PayMethod
 
-data class PlaceOrderRequest(
+data class PlaceOrderApRequest(
     val receiverName: String,
     val receiverAddress: String,
     val receiverEmail: String,
-    val productQuantities: List<PlaceOrderProductQuantity>,
+    val productQuantities: List<ProductQuantity>,
 )
 
-data class PlaceOrderProductQuantity(
+data class ProductQuantity(
     val vendorId: String,
     val productId: String,
     val optionId: String,
     val quantity: Long,
 )
 
-data class PayOrderRequest(
+data class PayOrderApiRequest(
     val orderId: String,
-    val payMethod: PayMethod,
+    val payMethod: PayMethod
 )

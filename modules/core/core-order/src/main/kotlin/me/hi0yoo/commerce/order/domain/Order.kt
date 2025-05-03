@@ -1,6 +1,7 @@
 package me.hi0yoo.commerce.order.domain
 
 import jakarta.persistence.*
+import me.hi0yoo.commerce.common.domain.enums.OrderStatus
 import me.hi0yoo.commerce.common.domain.exception.ProductNotFountException
 import me.hi0yoo.commerce.common.domain.id.ProductOptionId
 import java.math.BigDecimal
@@ -41,6 +42,9 @@ class Order(
     var status: OrderStatus = OrderStatus.PENDING
         protected set
 
+    var paymentInfo: PaymentInfo? = null
+        protected set
+
     val createdAt: LocalDateTime = LocalDateTime.now()
     val modifiedAt: LocalDateTime = LocalDateTime.now()
 
@@ -59,6 +63,11 @@ class Order(
         this.orderPrice = orderProducts.map {
             it.optionPrice.multiply(it.quantity.toBigDecimal())
         }.fold(BigDecimal.ZERO) { o1, o2 -> o1.add(o2) }
+    }
+
+    fun paid(paymentInfo: PaymentInfo) {
+        this.paymentInfo = paymentInfo
+        status = OrderStatus.PAID
     }
 
     override fun toString(): String {

@@ -60,7 +60,7 @@ class ProductDataInitializer {
             for (i in start until end) {
                 val sequence = (vendorIndex - 1) * TOTAL_PRODUCTS_PER_VENDOR + i
                 val vendorId = "V${vendorIndex.toString().padStart(3, '0')}"
-                val productId = "$vendorId-${(i + 1).toString().padStart(8, '0')}"
+                val productId = (i + 1).toString().padStart(8, '0')
                 val productName = generateProductName(sequence)
 
                 val product = Product(
@@ -86,7 +86,7 @@ class ProductDataInitializer {
         val optionNames = listOf("A", "B", "C")
 
         for (i in 1..3) {
-            val optionId = "${product.id.productId}-OPT$i"
+            val optionId = "OPT$i"
             val optionName = "${optionNames[(i - 1) % optionNames.size]} 옵션 $i"
             val optionPrice = BigDecimal(1000 + i * 100)
 
@@ -95,7 +95,7 @@ class ProductDataInitializer {
                 optionName = optionName,
                 optionPrice = optionPrice,
                 product = product,
-                realStockQuantity = 100,
+                realStockQuantity = 10_000,
             )
 
             entityManager.persist(option)

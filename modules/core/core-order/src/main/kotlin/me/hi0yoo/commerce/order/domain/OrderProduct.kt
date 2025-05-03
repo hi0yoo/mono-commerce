@@ -1,6 +1,7 @@
 package me.hi0yoo.commerce.order.domain
 
 import jakarta.persistence.*
+import me.hi0yoo.commerce.common.domain.enums.OrderProductStatus
 import me.hi0yoo.commerce.common.domain.id.OrderProductId
 import java.math.BigDecimal
 

@@ -20,5 +20,5 @@ class OrderNumberSequence(
         }
     }
 
-    fun increment() = seq++
+    fun increment() = ++seq
 }
