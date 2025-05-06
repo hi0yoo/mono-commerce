@@ -2,6 +2,7 @@ package me.hi0yoo.commerce.order.domain
 
 import jakarta.persistence.*
 import me.hi0yoo.commerce.common.domain.enums.OrderStatus
+import me.hi0yoo.commerce.common.domain.exception.OrderProductDuplicatedException
 import me.hi0yoo.commerce.common.domain.exception.ProductNotFountException
 import me.hi0yoo.commerce.common.domain.id.ProductOptionId
 import java.math.BigDecimal
@@ -49,15 +50,26 @@ class Order(
     val modifiedAt: LocalDateTime = LocalDateTime.now()
 
     init {
+        val productInfoMaps = productInfos.associateBy { it.id }
+
         val orderProducts = orderProductQuantities.map {
-            val productInfo = (productInfos.find { productInfo -> productInfo.id == it.first }
-                ?: throw ProductNotFountException(it.first))
+            val productInfo = productInfoMaps[it.first] ?: throw ProductNotFountException(it.first)
             OrderProduct(
                 order = this,
                 productInfo = productInfo,
                 quantity = it.second,
             )
         }
+
+        // 주문 상품 중복건 확인
+        orderProducts.groupBy { it.id }.entries
+            .find { it.value.size > 1 }
+            ?.let {
+                throw OrderProductDuplicatedException(
+                    itemId = it.key,
+                    quantities = it.value.map { op -> op.quantity }
+                )
+            }
 
         this.orderProducts.addAll(orderProducts)
         this.orderPrice = orderProducts.map {

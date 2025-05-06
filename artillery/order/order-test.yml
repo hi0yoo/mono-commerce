@@ -1,0 +1,44 @@
+config:
+  target: "http://localhost:8080"
+  phases:
+    - duration: 30       # 30초 동안 서서히 증가
+      arrivalRate: 20
+      rampTo: 50
+      name: "Ramp up"
+
+    - duration: 60       # 1분 동안 지속적으로 150 rps
+      arrivalRate: 150
+      name: "Sustained load"
+
+    - duration: 20       # 20초 동안 부하 감소
+      arrivalRate: 80
+      rampTo: 20
+      name: "Ramp down"
+
+  payload:
+    path: "./receivers.csv"
+    fields:
+      - receiverName
+      - receiverAddress
+      - receiverEmail
+  processor: "./processor.js"
+
+scenarios:
+  - name: "Place an order and Pay"
+    flow:
+      - function: generateProductQuantities
+      - post:
+          url: "/api/v1/orders"
+          json:
+            receiverName: "{{ receiverName }}"
+            receiverAddress: "{{ receiverAddress }}"
+            receiverEmail: "{{ receiverEmail }}"
+            productQuantities: "{{ productQuantities }}"
+          capture:
+            - json: "$.orderId"
+              as: "orderId"
+#      - post:
+#          url: "/api/v1/orders/payment"
+#          json:
+#            orderId: "{{ orderId }}"
+#            payMethod: "TOSS_PAY"

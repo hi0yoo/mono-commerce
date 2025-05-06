@@ -11,6 +11,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("com.mysql:mysql-connector-j")
+    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.3")
 
     implementation(project(":modules:core:core-common"))
     implementation(project(":modules:core:core-order"))
