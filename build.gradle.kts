@@ -63,4 +63,35 @@ allprojects {
     kapt {
         generateStubs = true
     }
+
+    plugins.withId("org.springframework.boot") {
+        // 부트 모듈이 아닌 경우 mainClass 에러 방지
+        if (project.name != "commerce") {
+            tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+                enabled = false
+            }
+        }
+    }
+}
+
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    enabled = false
+}
+
+tasks.named("bootJar") {
+    dependsOn("copyCommerceJar")
+}
+
+tasks.register<Copy>("copyCommerceJar") {
+    dependsOn(":modules:api:commerce:bootJar")
+
+    val jarFile = file("modules/api/commerce/build/libs/commerce.jar")
+    val targetDir = file("$buildDir/libs")
+
+    from(jarFile)
+    into(targetDir)
+
+    doFirst {
+        println("📦 Copying ${jarFile.name} → $targetDir")
+    }
 }

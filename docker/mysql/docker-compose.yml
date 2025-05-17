@@ -11,7 +11,7 @@ services:
     env_file: .env
     environment:
       TZ: Asia/Seoul
-    restart: always
+#    restart: always
 
 networks:
   commerce-net:

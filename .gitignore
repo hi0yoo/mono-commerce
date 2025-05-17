@@ -39,4 +39,5 @@ out/
 ### Kotlin ###
 .kotlin
 
-docker/mysql/db/data/
+docker/postgresql/db/*
+docker/mysql/db/*

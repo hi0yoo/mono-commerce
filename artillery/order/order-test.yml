@@ -1,18 +1,31 @@
 config:
-  target: "http://localhost:8080"
+  target: "http://localhost:8081" # 대상 URL
+#  defaults:
+#    http:
+#      timeout: 5000  # 각 요청의 타임아웃을 5초(5000ms)로 설정. default 10s
+
   phases:
-    - duration: 30       # 30초 동안 서서히 증가
-      arrivalRate: 20
-      rampTo: 50
+    - duration: 60       # 1분 동안 서서히 부하 증가
+      arrivalRate: 200   # 시작 RPS
+      rampTo: 400        # 최종 RPS
       name: "Ramp up"
 
-    - duration: 60       # 1분 동안 지속적으로 150 rps
-      arrivalRate: 150
-      name: "Sustained load"
+    - duration: 180      # 3분 동안 지속적인 높은 부하
+      arrivalRate: 400   # 지속 부하(400 RPS)
+      name: "Sustained high load"
 
-    - duration: 20       # 20초 동안 부하 감소
-      arrivalRate: 80
-      rampTo: 20
+    - duration: 30       # 30초 동안 피크 부하로 상승
+      arrivalRate: 400   # 시작 RPS
+      rampTo: 600        # 600 RPS로 상승
+      name: "Spike load"
+
+    - duration: 120      # 2분 동안 지속적인 피크 부하
+      arrivalRate: 600   # 유지 부하(600 RPS)
+      name: "Sustained peak load"
+
+    - duration: 30       # 30초 동안 부하 감소
+      arrivalRate: 600   # 시작 RPS
+      rampTo: 100        # 100 RPS로 감소
       name: "Ramp down"
 
   payload:

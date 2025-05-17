@@ -2,11 +2,14 @@ package me.hi0yoo.commerce.order.domain
 
 import jakarta.persistence.*
 import me.hi0yoo.commerce.common.domain.enums.OrderStatus
+import me.hi0yoo.commerce.common.domain.exception.InvalidOrderIdException
 import me.hi0yoo.commerce.common.domain.exception.OrderProductDuplicatedException
 import me.hi0yoo.commerce.common.domain.exception.ProductNotFountException
 import me.hi0yoo.commerce.common.domain.id.ProductOptionId
 import java.math.BigDecimal
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 @Entity
 @Table(name = "orders")
@@ -50,6 +53,9 @@ class Order(
     val modifiedAt: LocalDateTime = LocalDateTime.now()
 
     init {
+        // 주문번호 양식이 맞는지 확인
+        isValidOrderId(id) || throw InvalidOrderIdException(id)
+
         val productInfoMaps = productInfos.associateBy { it.id }
 
         val orderProducts = orderProductQuantities.map {
@@ -76,6 +82,25 @@ class Order(
             it.optionPrice.multiply(it.quantity.toBigDecimal())
         }.fold(BigDecimal.ZERO) { o1, o2 -> o1.add(o2) }
     }
+
+    private fun isValidOrderId(id: String): Boolean {
+        // 정규식을 사용하여 yyyyMMddHHmmss + 4자리 숫자 형식 확인
+        val regex = Regex("""\d{14}\d{4}""") // 14자리 날짜 + 4자리 숫자
+        if (!regex.matches(id)) {
+            return false
+        }
+
+        // yyyyMMddHHmmss 부분을 LocalDateTime으로 유효성 확인
+        val dateTimePart = id.substring(0, 14)
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+        return try {
+            LocalDateTime.parse(dateTimePart, formatter)
+            true
+        } catch (e: DateTimeParseException) {
+            false
+        }
+    }
+
 
     fun paid(paymentInfo: PaymentInfo) {
         this.paymentInfo = paymentInfo

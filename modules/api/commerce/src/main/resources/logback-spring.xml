@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false">
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!-- spring.application.name 가져오기 (선택) -->
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+
+    <!-- 콘솔 출력 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+            <charset>${CONSOLE_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <!-- 파일 출력 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/${springAppName:-app}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/${springAppName:-app}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${FILE_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <!-- 줄여서 로거 이름 출력 (예: o.s.o.j.p.ClassName) -->
+<!--    <logger name="ROOT" level="INFO">-->
+<!--        <abbreviator class="ch.qos.logback.classic.pattern.TargetLengthBasedClassNameAbbreviator">-->
+<!--            <param name="targetLength" value="36"/>-->
+<!--        </abbreviator>-->
+<!--    </logger>-->
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

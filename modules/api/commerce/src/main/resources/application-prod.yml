@@ -1,0 +1,36 @@
+server:
+  tomcat:
+    threads:
+      max: 1000    # 최대 스레드 수 (기본값: 200)
+      min-spare: 100  # 최소 대기 스레드 수 (기본값: 10)
+    accept-count: 5000   # 대기열에 수용 가능한 최대 요청 수
+    connection-timeout: 30s # 연결을 30초 동안만 기다림
+
+spring:
+  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:13306/commerce
+#    username: user
+#    password: pw12!@
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://commerce-postgresql:15432/commerce
+    username: root
+    password: root12!@
+    hikari:
+      maximum-pool-size: 80
+      minimum-idle: 10
+      idle-timeout: 30000 # 30초
+      max-lifetime: 1800000 # 30분
+  h2:
+    console:
+      enabled: true
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+  #    show-sql: true
+  data:
+    redis:
+      # 컨테이너 내부에서 요청하기 때문에 내부 포트 사용해야 함
+      host: commerce-redis
+      port: 6379
