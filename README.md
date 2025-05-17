@@ -24,19 +24,19 @@
 ## 📁 프로젝트 구조
 ```bash
 .
-├── artillery # test scripts
-├── docker # docker compose settings for local
+├── artillery             # test scripts
+├── docker                # docker compose settings for local
 │   ├── commerce-app
 │   ├── mysql
 │   ├── postgresql
 │   └── redis
-└── modules
-    ├── api # presentation layer
+└── modules               # gradle multi-module projects
+    ├── api               # presentation layer
     │   └── commerce
-    ├── core # application, domain layer
+    ├── core              # application, domain layer
     │   ├── core-common
     │   └── core-order
-    └── infra # infrastructure layer
+    └── infra             # infrastructure layer
         ├── infra-common
         └── infra-order
 ````
