@@ -1,0 +1,62 @@
+config:
+  target: "http://localhost:8080" # 대상 URL
+  defaults:
+    http:
+      timeout: 30000  # 각 요청의 타임아웃 설정. default 10s
+
+  phases:
+    - duration: 30
+      arrivalRate: 100
+      rampTo: 500
+      name: "Ramp up"
+
+    - duration: 60
+      arrivalRate: 500
+      name: "Sustained high load"
+
+    - duration: 60
+      arrivalRate: 500
+      rampTo: 1000
+      name: "Spike load"
+
+    - duration: 120
+      arrivalRate: 1000
+      name: "Sustained peak"
+
+    - duration: 30
+      arrivalRate: 1000
+      rampTo: 500
+      name: "Ramp down"
+
+    - duration: 30
+      arrivalRate: 500
+      rampTo: 100
+      name: "Ramp down2"
+
+  payload:
+    path: "./receivers.csv"
+    fields:
+      - receiverName
+      - receiverAddress
+      - receiverEmail
+  processor: "./processor.js"
+
+scenarios:
+  - name: "Place an order and Pay"
+    flow:
+      - function: generateProductQuantities
+      - post:
+          url: "/api/v1/orders"
+          json:
+            receiverName: "{{ receiverName }}"
+            receiverAddress: "{{ receiverAddress }}"
+            receiverEmail: "{{ receiverEmail }}"
+            productQuantities: "{{ productQuantities }}"
+          capture:
+            - json: "$.orderId"
+              as: "orderId"
+#      - post:
+#          url: "/api/v1/orders/payment"
+#          json:
+#            orderId: "{{ orderId }}"
+#            payMethod: "TOSS_PAY"
