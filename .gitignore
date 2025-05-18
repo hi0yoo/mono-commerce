@@ -41,3 +41,7 @@ out/
 
 docker/postgresql/db/*
 docker/mysql/db/*
+docker/monitor/grafana
+docker/monitor/prometheus
+
+logs
