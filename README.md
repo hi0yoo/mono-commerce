@@ -1,4 +1,4 @@
-# 이커머스 실험실 사이드 프로젝트
+# 이커머스 실험실 사이드 프로젝트 (2025-05-01 ~ )
 
 부하 테스트와 구조적 유연성(멀티모듈 + DDD)을 실험하기 위한 사이드 프로젝트입니다.
 
@@ -24,19 +24,19 @@
 ## 📁 프로젝트 구조
 ```bash
 .
-├── artillery # test scripts
-├── docker # docker compose settings for local
+├── artillery             # test scripts
+├── docker                # docker compose settings for local
 │   ├── commerce-app
 │   ├── mysql
 │   ├── postgresql
 │   └── redis
-└── modules
-    ├── api # presentation layer
+└── modules               # gradle multi-module projects
+    ├── api               # presentation layer
     │   └── commerce
-    ├── core # application, domain layer
+    ├── core              # application, domain layer
     │   ├── core-common
     │   └── core-order
-    └── infra # infrastructure layer
+    └── infra             # infrastructure layer
         ├── infra-common
         └── infra-order
 ````
