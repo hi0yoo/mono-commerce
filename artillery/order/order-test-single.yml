@@ -5,33 +5,33 @@ config:
       timeout: 30000  # 각 요청의 타임아웃 설정. default 10s
 
   phases:
-    - duration: 30
-      arrivalRate: 100
-      rampTo: 500
-      name: "Ramp up"
+    - name: Ramp up to 400
+      rampTo: 400
+      duration: 60
+      arrivalRate: 200
 
-    - duration: 60
-      arrivalRate: 500
-      name: "Sustained high load"
+    - name: Hold at 400
+      arrivalRate: 400
+      duration: 60
 
-    - duration: 60
-      arrivalRate: 500
-      rampTo: 1000
-      name: "Spike load"
+    - name: Ramp to 600
+      rampTo: 600
+      arrivalRate: 400
+      duration: 60
 
-    - duration: 120
-      arrivalRate: 1000
-      name: "Sustained peak"
+    - name: Ramp to 800
+      rampTo: 800
+      arrivalRate: 600
+      duration: 60
 
-    - duration: 30
-      arrivalRate: 1000
-      rampTo: 500
-      name: "Ramp down"
+    - name: Hold at 800
+      arrivalRate: 800
+      duration: 150
 
-    - duration: 30
-      arrivalRate: 500
+    - name: Ramp down to 100
       rampTo: 100
-      name: "Ramp down2"
+      arrivalRate: 800
+      duration: 60
 
   payload:
     path: "./receivers.csv"

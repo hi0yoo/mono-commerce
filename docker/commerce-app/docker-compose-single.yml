@@ -1,0 +1,15 @@
+services:
+  commerce-app:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    networks:
+      - commerce-net
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: single
+
+networks:
+  commerce-net:
+    external: true

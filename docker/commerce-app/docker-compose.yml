@@ -11,11 +11,11 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: prod
     deploy:
-      replicas: 3 # 컨테이너 3개 실행 (수직 확장 가능)
-      resources:
-        limits:
-          cpus: '2'
-          memory: 2048M
+      replicas: 3 # 컨테이너 3개 실행 (수평 확장 가능)
+#      resources:
+#        limits:
+#          cpus: '2'
+#          memory: 2048M
   commerce-nginx:
     image: nginx:latest
     networks:
