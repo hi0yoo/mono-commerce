@@ -22,7 +22,7 @@ COPY .gitignore .gitignore
 
 # 실행 권한 추가 및 빌드
 RUN chmod +x ./gradlew                      # Wrapper 실행권한 추가
-RUN ./gradlew clean bootJar --no-daemon     # jar 파일 빌드
+RUN ./gradlew clean build --no-daemon       # jar 파일 빌드
 
 # Step 2: Runtime stage with JRE
 FROM eclipse-temurin:21-jre AS runtime
