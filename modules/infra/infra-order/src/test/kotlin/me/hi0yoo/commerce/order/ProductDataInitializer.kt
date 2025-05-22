@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import me.hi0yoo.commerce.order.infrastructure.product.Product
 import me.hi0yoo.commerce.order.infrastructure.product.ProductOption
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -14,6 +15,7 @@ import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 
+@Disabled
 @DataJpaTest
 @ContextConfiguration(classes = [JpaTestConfiguration::class])
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

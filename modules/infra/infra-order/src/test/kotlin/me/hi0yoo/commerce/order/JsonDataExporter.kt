@@ -3,6 +3,7 @@ package me.hi0yoo.commerce.order
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import jakarta.persistence.EntityManager
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -11,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration
 import java.io.File
 import java.nio.file.Paths
 
+@Disabled
 @DataJpaTest
 @ContextConfiguration(classes = [JpaTestConfiguration::class])
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
