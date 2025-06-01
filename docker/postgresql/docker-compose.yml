@@ -1,19 +1,14 @@
 services:
   db:
     container_name: commerce-postgresql
-    deploy:
-      resources:
-        limits:
-          cpus: '5'
     image: postgres
     ports:
       - "15432:15432"
     volumes:
       # 데이터 디렉토리 마운트
       - ./db/data:/var/lib/postgresql/data
-      # postgresql.conf를 다른 위치에 마운트
-      - ./postgresql.conf:/etc/postgresql/postgresql.conf  # 설정 파일을 /etc/postgresql/에 마운트
-      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf  # pg_hba.conf 파일을 /etc/postgresql에 마운트
+      - ./db/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./db/pg_hba.conf:/etc/postgresql/pg_hba.conf
     command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'  # 설정 파일 경로 지정
     env_file: .env
     networks:
@@ -21,4 +16,3 @@ services:
 
 networks:
   commerce-net:
-    external: true
