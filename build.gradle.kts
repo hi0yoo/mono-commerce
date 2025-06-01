@@ -95,11 +95,3 @@ tasks.register<Copy>("copyCommerceJar") {
         println("📦 Copying ${jarFile.name} → $targetDir")
     }
 }
-
-tasks.register<Exec>("dockerBuild") {
-    group = "docker"
-    description = "Build bootJar and then Docker image"
-
-    executable = "/opt/homebrew/bin/docker"
-    args("build", "-t", "commerce-app:latest", ".")
-}
