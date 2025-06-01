@@ -2,36 +2,22 @@ config:
   target: "http://localhost:8080" # 대상 URL
   defaults:
     http:
-      timeout: 30000  # 각 요청의 타임아웃 설정. default 10s
+      timeout: 15000  # 각 요청의 타임아웃 설정. default 10s
 
   phases:
-    - name: Ramp up to 400
-      rampTo: 400
-      duration: 60
-      arrivalRate: 200
-
-    - name: Hold at 400
-      arrivalRate: 400
-      duration: 60
-
-    - name: Ramp to 600
-      rampTo: 600
-      arrivalRate: 400
-      duration: 60
-
-    - name: Ramp to 800
+    - name: Ramp up to 800
       rampTo: 800
-      arrivalRate: 600
-      duration: 60
+      duration: 120
+      arrivalRate: 0
 
-    - name: Hold at 800
+    - name: Hold 800
       arrivalRate: 800
-      duration: 150
+      duration: 180
 
-    - name: Ramp down to 100
-      rampTo: 100
+    - name: Ramp down to 0
+      rampTo: 0
+      duration: 120
       arrivalRate: 800
-      duration: 60
 
   payload:
     path: "./receivers.csv"

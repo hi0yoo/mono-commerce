@@ -1,29 +1,21 @@
-const fs = require('fs');
+const fs = require('fs')
 
-const products = JSON.parse(fs.readFileSync('./products.json', 'utf8'));
+const products = JSON.parse(fs.readFileSync('./products.json', 'utf8'))
 
 module.exports = {
   generateProductQuantities: function (context, events, done) {
-    const numItems = Math.floor(Math.random() * 10) + 1; // 1~10개
-    const selected = [];
-
-    for (let i = 0; i < numItems; i++) {
-      const p = products[Math.floor(Math.random() * products.length)];
-      if (selected.some(e =>
-        e.vendorId === p.vendorId &&
-        e.productId === p.productId &&
-        e.optionId === p.optionId
-      )) continue;
-
-      selected.push({
-        vendorId: p.vendorId,
-        productId: p.productId,
-        optionId: p.optionId,
-        quantity: Math.floor(Math.random() * 5) + 1, // 수량 1~5
-      });
+    const numItems = Math.floor(Math.random() * 10) + 1 // 1~10개
+    const picked = new Set()
+    while (picked.size < numItems) {
+      const candidate = products[Math.floor(Math.random() * products.length)]
+      picked.add(candidate)
     }
 
-    context.vars.productQuantities = selected;
-    return done();
+    context.vars.productQuantities = Array.from(picked).map(id => ({
+      productOptionId: id,
+      quantity: Math.floor(Math.random() * 5) + 1,
+    }))
+
+    return done()
   }
-};
+}

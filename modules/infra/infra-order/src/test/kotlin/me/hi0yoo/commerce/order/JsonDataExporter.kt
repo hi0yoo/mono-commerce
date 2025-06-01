@@ -3,6 +3,7 @@ package me.hi0yoo.commerce.order
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import jakarta.persistence.EntityManager
+import me.hi0yoo.commerce.order.infrastructure.product.ProductOption
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,10 +25,10 @@ class JsonDataExporter {
     fun exportProductJson() {
         val result = em.createQuery(
             """
-            select new map(o.id.vendorId as vendorId, o.id.productId as productId, o.id.optionId as optionId)
+            select o
             FROM ProductOption o
-            """.trimIndent(), Map::class.java
-        ).setMaxResults(100_000).resultList
+            """.trimIndent(), ProductOption::class.java
+        ).setMaxResults(200_000).resultList
 
         val objectMapper = jacksonObjectMapper().enable(SerializationFeature.INDENT_OUTPUT)
         val currentDir = Paths.get(System.getProperty("user.dir")).toString()
@@ -35,6 +36,6 @@ class JsonDataExporter {
         val targetFile = File(rootPath, "artillery/order/products.json")
 
         targetFile.parentFile.mkdirs()
-        targetFile.writeText(objectMapper.writeValueAsString(result))
+        targetFile.writeText(objectMapper.writeValueAsString(result.map { it.id.toString() }))
     }
 }

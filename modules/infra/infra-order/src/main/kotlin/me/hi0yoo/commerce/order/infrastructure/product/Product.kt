@@ -1,17 +1,17 @@
 package me.hi0yoo.commerce.order.infrastructure.product
 
-import jakarta.persistence.EmbeddedId
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import me.hi0yoo.commerce.common.domain.id.ProductId
+import jakarta.persistence.Id
 
 @Entity
 class Product(
-    vendorId: String,
-    productId: String,
+    id: Long,
     productName: String,
 ) {
-    @EmbeddedId
-    val id: ProductId = ProductId(vendorId, productId)
+    @Id
+    @Column(name = "product_id")
+    val id: Long = id
 
     var productName: String = productName
         protected set

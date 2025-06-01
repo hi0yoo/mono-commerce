@@ -1,24 +1,24 @@
 package me.hi0yoo.commerce.order.infrastructure.product
 
-import jakarta.persistence.EmbeddedId
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.Id
 import me.hi0yoo.commerce.common.domain.exception.OutOfStockException
-import me.hi0yoo.commerce.common.domain.id.ProductOptionId
 import java.math.BigDecimal
 
 @Entity
 class ProductOption(
-    product: Product,
-    optionId: String,
+    id: Long,
+    productId: Long,
     optionName: String,
     optionPrice: BigDecimal,
     realStockQuantity: Long = 0,
 ) {
-    @EmbeddedId
-    val id: ProductOptionId = ProductOptionId(
-        productId = product.id,
-        optionId = optionId,
-    )
+    @Id
+    @Column(name = "product_option_id")
+    val id: Long = id
+
+    val productId: Long = productId
 
     var optionName: String = optionName
         protected set

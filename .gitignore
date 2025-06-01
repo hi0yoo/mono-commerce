@@ -39,8 +39,8 @@ out/
 ### Kotlin ###
 .kotlin
 
-docker/postgresql/db/*
-docker/mysql/db/*
+docker/postgresql/db/data
+docker/mysql/db/data
 docker/monitor/grafana
 docker/monitor/prometheus
 

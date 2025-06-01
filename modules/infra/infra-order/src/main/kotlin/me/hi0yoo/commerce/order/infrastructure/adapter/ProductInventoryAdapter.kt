@@ -2,7 +2,6 @@ package me.hi0yoo.commerce.order.infrastructure.adapter
 
 import jakarta.transaction.Transactional
 import me.hi0yoo.commerce.common.domain.exception.ProductNotFountException
-import me.hi0yoo.commerce.common.domain.id.ProductOptionId
 import me.hi0yoo.commerce.order.application.port.ProductInventoryPort
 import me.hi0yoo.commerce.order.application.port.ReserveStockRequest
 import me.hi0yoo.commerce.order.infrastructure.product.ProductOptionJpaRepository
@@ -14,19 +13,13 @@ class ProductInventoryAdapter(
 ): ProductInventoryPort {
     @Transactional
     override fun reserveStocks(requests: List<ReserveStockRequest>) {
-        val optionIds = requests.map { ProductOptionId(it.vendorId, it.productId, it.optionId) }
+        val optionIds = requests.map { it.productOptionId }
         val optionsMap = productOptionJpaRepository.findAllByIdForUpdate(optionIds).associateBy { it.id }
 
         for (request in requests) {
-            optionsMap[ProductOptionId(request.vendorId, request.productId, request.optionId)]
+            optionsMap[request.productOptionId]
                 ?.increaseReservedStockQuantity(request.quantity)
-                ?: throw ProductNotFountException(
-                    ProductOptionId(
-                        request.vendorId,
-                        request.productId,
-                        request.optionId
-                    )
-                )
+                ?: throw ProductNotFountException(request.productOptionId)
         }
     }
 }

@@ -2,6 +2,7 @@ package me.hi0yoo.commerce.order
 
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
+import me.hi0yoo.commerce.common.snowflake.Snowflake
 import me.hi0yoo.commerce.order.infrastructure.product.Product
 import me.hi0yoo.commerce.order.infrastructure.product.ProductOption
 import org.junit.jupiter.api.Disabled
@@ -36,6 +37,8 @@ class ProductDataInitializer {
 
     val latch = CountDownLatch(EXECUTE_COUNT)
 
+    val snowflake = Snowflake()
+
     @Test
     fun initProductsAndOptions() {
         // 업체당 상품 100만건, 업체 5개 = 500만건
@@ -61,13 +64,10 @@ class ProductDataInitializer {
         transactionTemplate.executeWithoutResult {
             for (i in start until end) {
                 val sequence = (vendorIndex - 1) * TOTAL_PRODUCTS_PER_VENDOR + i
-                val vendorId = "V${vendorIndex.toString().padStart(3, '0')}"
-                val productId = (i + 1).toString().padStart(8, '0')
                 val productName = generateProductName(sequence)
 
                 val product = Product(
-                    vendorId = vendorId,
-                    productId = productId,
+                    id = snowflake.nextId(),
                     productName = productName,
                 )
                 entityManager.persist(product)
@@ -88,15 +88,14 @@ class ProductDataInitializer {
         val optionNames = listOf("A", "B", "C")
 
         for (i in 1..3) {
-            val optionId = "OPT$i"
             val optionName = "${optionNames[(i - 1) % optionNames.size]} 옵션 $i"
             val optionPrice = BigDecimal(1000 + i * 100)
 
             val option = ProductOption(
-                optionId = optionId,
+                id = snowflake.nextId(),
+                productId = product.id,
                 optionName = optionName,
                 optionPrice = optionPrice,
-                product = product,
                 realStockQuantity = 10_000,
             )
 

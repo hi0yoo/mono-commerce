@@ -5,7 +5,7 @@ import me.hi0yoo.commerce.common.domain.enums.OrderStatus
 import me.hi0yoo.commerce.common.domain.exception.InvalidOrderIdException
 import me.hi0yoo.commerce.common.domain.exception.OrderProductDuplicatedException
 import me.hi0yoo.commerce.common.domain.exception.ProductNotFountException
-import me.hi0yoo.commerce.common.domain.id.ProductOptionId
+import me.hi0yoo.commerce.common.domain.id.IdGenerator
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -18,7 +18,8 @@ class Order(
     customer: Customer,
     deliveryAddress: DeliveryAddress,
     productInfos: List<ProductInfo>,
-    orderProductQuantities: List<Pair<ProductOptionId, Long>>,
+    orderProductQuantities: List<Pair<Long, Long>>,
+    orderProductIdGenerator: IdGenerator,
 ) {
     // 주문번호
     @Id
@@ -61,6 +62,7 @@ class Order(
         val orderProducts = orderProductQuantities.map {
             val productInfo = productInfoMaps[it.first] ?: throw ProductNotFountException(it.first)
             OrderProduct(
+                id = orderProductIdGenerator.nextId(),
                 order = this,
                 productInfo = productInfo,
                 quantity = it.second,
@@ -68,11 +70,11 @@ class Order(
         }
 
         // 주문 상품 중복건 확인
-        orderProducts.groupBy { it.id }.entries
+        orderProducts.groupBy { it }.entries
             .find { it.value.size > 1 }
             ?.let {
                 throw OrderProductDuplicatedException(
-                    itemId = it.key,
+                    itemId = it.key.id,
                     quantities = it.value.map { op -> op.quantity }
                 )
             }

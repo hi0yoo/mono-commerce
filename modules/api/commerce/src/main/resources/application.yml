@@ -2,10 +2,10 @@ server:
   address: 0.0.0.0 # 모든 네트워크 인터페이스에서 요청을 수신할 수 있도록 설정
   tomcat:
     threads:
-      max: 1000    # 최대 스레드 수 (기본값: 200)
-      min-spare: 100  # 최소 대기 스레드 수 (기본값: 10)
-    accept-count: 5000   # 대기열에 수용 가능한 최대 요청 수
-    connection-timeout: 30s # 연결을 30초 동안만 기다림
+      max: 500
+      min-spare: 20
+    accept-count: 3000
+    connection-timeout: 30s
 
 spring:
   datasource:
@@ -18,10 +18,10 @@ spring:
     username: root
     password: root12!@
     hikari:
-      maximum-pool-size: 200
-      minimum-idle: 10
-      idle-timeout: 30000 # 30초
-      max-lifetime: 1800000 # 30분
+      maximum-pool-size: 300
+      minimum-idle: 40
+      idle-timeout: 10000
+      max-lifetime: 1800000
   h2:
     console:
       enabled: true

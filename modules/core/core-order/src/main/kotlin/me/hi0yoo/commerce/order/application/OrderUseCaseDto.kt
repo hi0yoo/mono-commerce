@@ -10,9 +10,7 @@ data class PlaceOrderRequest(
 )
 
 data class PlaceOrderProductQuantity(
-    val vendorId: String,
-    val productId: String,
-    val optionId: String,
+    val productOptionId: Long,
     val quantity: Long,
 )
 
