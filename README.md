@@ -67,6 +67,64 @@ ex) JPA, QueryDsl, Redis, Session 등
 - infra-order : core-order 의존 구현
 
 
+## 📂 Package 구조
+```bash
+.
+└── modules
+    ├── api                                  # 컨트롤러·DTO·보안 설정 등 “웹 어댑터” 전담
+    │   └── commerce
+    │       └── commerce
+    │           ├── CommerceApplication.kt
+    │           ├── api
+    │           └── config
+    ├── architecture-test                    # 아키텍처 Rule test
+    ├── core                                 # 도메인 규칙을 담당하는 모듈
+    │   ├── core-common                      # core 모듈에서 공통으로 사용
+    │   │   └── commerce
+    │   │       └── common
+    │   │           ├── application          # application layer
+    │   │           │   └── auth
+    │   │           └── domain               # domain layer
+    │   │               ├── enums
+    │   │               ├── exception
+    │   │               └── id
+    │   └── core-order                       # 주문 모듈 핵심 도메인 규칙 담당
+    │       └── commerce
+    │           └── order
+    │               ├── application          # application layer
+    │               │   └── port             # 시스템 외부 입출력 포트 인터페이스 패키지
+    │               └── domain               # domain layer
+    └── infra                                # 외부 자원/기술구현 담당 모듈
+        ├── infra-common                     # infra 모듈에서 공통으로 사용
+        │   └── commerce
+        │       └── common
+        │           └── infrastructure       # infrastructure layer
+        │               └── auth
+        └── infra-order                      # 주문 모듈 외부 자원 접근/기술 구현 담당
+            └── commerce
+                └── order
+                    └── infrastructure       # infrastructure layer
+                        ├── adapter          # port에 대한 adapter 구현
+                        ├── config
+                        ├── product
+                        ├── repository
+                        └── sequence
+```
+
+### 의존성 요약
+```
+api       →        core-order.application   / .port
+ ↑                           ↓
+ └── response dto    core-order.domain          ↓
+                             ↓
+                  infra-order.repository    / .adapter
+```
+- core-* 모듈은 순수 비즈니스 로직만 보유. 외부 기술 의존 제거
+- infra-* 모듈은 Database, Redis 등 구현 세부 담당
+- ArchUnit 규칙을 architecture-test 모듈에서 실행하여 core → infra 단방향 의존만 허용하도록 빌드시 자동 검증
+
+
+
 ## 🐳 commerce-app 도커 컨테이너 실행 방법
 ```shell
 docker network create commerce-net
