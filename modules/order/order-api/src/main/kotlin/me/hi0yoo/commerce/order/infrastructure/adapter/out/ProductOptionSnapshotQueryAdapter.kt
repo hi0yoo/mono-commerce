@@ -1,0 +1,26 @@
+package me.hi0yoo.commerce.order.infrastructure.adapter.out
+
+import me.hi0yoo.commerce.order.application.port.out.ProductOptionSnapshotQuery
+import me.hi0yoo.commerce.order.application.port.out.ProductOptionSnapshotResult
+import me.hi0yoo.commerce.order.application.port.out.ProductOptionSnapshotQueryPort
+import me.hi0yoo.commerce.product.application.dto.ProductOptionSnapshotQuery as ProductModuleProductOptionSnapshotQuery
+import me.hi0yoo.commerce.product.application.port.`in`.FetchProductOptionSnapshotUseCase
+import org.springframework.stereotype.Component
+
+@Component
+class ProductOptionSnapshotQueryAdapter(
+    private val fetchProductOptionSnapshotUseCase: FetchProductOptionSnapshotUseCase
+): ProductOptionSnapshotQueryPort {
+    override fun fetchProductOptionSnapshots(query: ProductOptionSnapshotQuery): List<ProductOptionSnapshotResult> {
+        return fetchProductOptionSnapshotUseCase.fetchSnapshots(
+            ProductModuleProductOptionSnapshotQuery(productOptionIds = query.productOptionIds)
+        ).map {
+            ProductOptionSnapshotResult(
+                it.productOptionId,
+                it.productName,
+                it.optionName,
+                it.price,
+            )
+        }
+    }
+}

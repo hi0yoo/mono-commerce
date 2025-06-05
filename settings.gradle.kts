@@ -1,15 +1,13 @@
 rootProject.name = "commerce"
 
-// api
-include("modules:api:commerce")
+include("modules:app")
 
-// core
-include("modules:core:core-common")
-include("modules:core:core-order")
+include("modules:common")
+include("modules:common:snowflake")
+include("modules:common:auth")
 
-// infra
-include("modules:infra:infra-common")
-include("modules:infra:infra-order")
-
-// architecture test
-include("modules:architecture-test")
+include("modules:product")
+include("modules:product:product-api")
+include("modules:product:product-core")
+include("modules:order")
+include("modules:order:order-api")
