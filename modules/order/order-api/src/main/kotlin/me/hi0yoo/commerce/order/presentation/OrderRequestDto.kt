@@ -1,7 +1,5 @@
 package me.hi0yoo.commerce.order.presentation
 
-import me.hi0yoo.commerce.order.domain.PayMethod
-
 data class PlaceOrderApRequest(
     val receiverName: String,
     val receiverAddress: String,
@@ -16,5 +14,5 @@ data class ProductQuantity(
 
 data class PayOrderApiRequest(
     val orderId: String,
-    val payMethod: PayMethod
+    val payMethod: String
 )

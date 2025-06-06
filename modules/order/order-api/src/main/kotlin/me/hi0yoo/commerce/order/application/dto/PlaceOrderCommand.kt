@@ -4,10 +4,10 @@ data class PlaceOrderCommand(
     val receiverName: String,
     val receiverAddress: String,
     val receiverEmail: String,
-    val productQuantities: List<PlaceOrderProductCommand>,
-)
-
-data class PlaceOrderProductCommand(
-    val productOptionId: Long,
-    val quantity: Int,
-)
+    val productQuantities: List<ProductQuantity>,
+) {
+    data class ProductQuantity(
+        val productOptionId: Long,
+        val quantity: Int,
+    )
+}

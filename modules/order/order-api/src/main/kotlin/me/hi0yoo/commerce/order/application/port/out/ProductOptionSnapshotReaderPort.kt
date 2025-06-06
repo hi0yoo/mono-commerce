@@ -1,7 +1,7 @@
 package me.hi0yoo.commerce.order.application.port.out
 
-interface ProductOptionSnapshotQueryPort {
-    fun fetchProductOptionSnapshots(query: ProductOptionSnapshotQuery): List<ProductOptionSnapshotResult>
+interface ProductOptionSnapshotReaderPort {
+    fun fetchSnapshots(query: ProductOptionSnapshotQuery): List<ProductOptionSnapshotResult>
 }
 
 data class ProductOptionSnapshotQuery(

@@ -1,7 +1,6 @@
 package me.hi0yoo.commerce.order.domain
 
 import jakarta.persistence.*
-import me.hi0yoo.commerce.product.domain.ProductNotFountException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -55,8 +54,7 @@ class Order(
         val productInfoMaps = productInfos.associateBy { it.id }
 
         val orderProducts = orderProductQuantities.map {
-            // TODO product domain 의존 제거
-            val productInfo = productInfoMaps[it.first] ?: throw ProductNotFountException(it.first)
+            val productInfo = productInfoMaps[it.first] ?: throw OrderProductNotFoundException(it.first)
             OrderProduct(
                 id = orderProductIdGenerator.nextId(),
                 order = this,

@@ -1,6 +1,6 @@
 package me.hi0yoo.commerce.order.application.port.out
 
-interface ProductInventoryPort {
+interface StockReservationPort {
     fun reserveStocks(command: BulkReserveStockCommand)
 }
 
@@ -12,4 +12,3 @@ data class ReserveStockCommand(
     val productOptionId: Long,
     val quantity: Int,
 )
-
