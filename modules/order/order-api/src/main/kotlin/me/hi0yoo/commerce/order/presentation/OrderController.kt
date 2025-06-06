@@ -2,7 +2,6 @@ package me.hi0yoo.commerce.order.presentation
 
 import me.hi0yoo.commerce.order.application.dto.PayOrderCommand
 import me.hi0yoo.commerce.order.application.port.`in`.PayOrderUseCase
-import me.hi0yoo.commerce.order.application.dto.PlaceOrderProductCommand
 import me.hi0yoo.commerce.order.application.dto.PlaceOrderCommand
 import me.hi0yoo.commerce.order.application.port.`in`.PlaceOrderUseCase
 import org.slf4j.LoggerFactory
@@ -30,7 +29,7 @@ class OrderController(
                 request.receiverAddress,
                 request.receiverEmail,
                 request.productQuantities.map {
-                    PlaceOrderProductCommand(
+                    PlaceOrderCommand.ProductQuantity(
                         it.productOptionId,
                         it.quantity,
                     )
