@@ -11,7 +11,7 @@ class Order(
     id: String,
     customer: Customer,
     deliveryAddress: DeliveryAddress,
-    productInfos: List<ProductInfo>,
+    orderProductSpecs: List<OrderProductSpec>,
     orderProductQuantities: List<Pair<Long, Int>>,
     orderProductIdGenerator: IdGenerator,
 ) {
@@ -51,14 +51,14 @@ class Order(
         // 주문번호 양식이 맞는지 확인
         isValidOrderId(id) || throw InvalidOrderIdException(id)
 
-        val productInfoMaps = productInfos.associateBy { it.id }
+        val orderProductsMap = orderProductSpecs.associateBy { it.optionId }
 
         val orderProducts = orderProductQuantities.map {
-            val productInfo = productInfoMaps[it.first] ?: throw OrderProductNotFoundException(it.first)
+            val productInfo = orderProductsMap[it.first] ?: throw OrderProductNotFoundException(it.first)
             OrderProduct(
                 id = orderProductIdGenerator.nextId(),
                 order = this,
-                productInfo = productInfo,
+                orderProductSpec = productInfo,
                 quantity = it.second,
             )
         }
@@ -74,8 +74,8 @@ class Order(
             }
 
         this.orderProducts.addAll(orderProducts)
-        this.orderPrice = orderProducts.map {
-            it.optionPrice * it.quantity
+        this.orderPrice = this.orderProducts.map {
+            (it.price + it.additionalPrice) * it.quantity
         }.fold(0) { o1, o2 -> o1 + o2 }
     }
 

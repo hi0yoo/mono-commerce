@@ -16,10 +16,13 @@ class ProductOptionSnapshotReaderAdapter(
             ProductModuleProductOptionSnapshotQuery(productOptionIds = query.productOptionIds)
         ).map {
             ProductOptionSnapshotResult(
-                it.productOptionId,
-                it.productName,
-                it.optionName,
-                it.price,
+                vendorId = it.vendorId,
+                productId = it.productId,
+                productName = it.productName,
+                price = it.price,
+                productOptionId = it.productOptionId,
+                optionName = it.productName,
+                additionalPrice = it.additionalPrice,
             )
         }
     }

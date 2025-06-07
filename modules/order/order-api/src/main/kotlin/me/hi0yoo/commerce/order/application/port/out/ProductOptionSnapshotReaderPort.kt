@@ -9,8 +9,11 @@ data class ProductOptionSnapshotQuery(
 )
 
 data class ProductOptionSnapshotResult(
-    val productOptionId: Long,
+    val vendorId: String,
+    val productId: Long,
     val productName: String,
-    val optionName: String,
     val price: Int,
+    val productOptionId: Long,
+    val optionName: String,
+    val additionalPrice: Int,
 )

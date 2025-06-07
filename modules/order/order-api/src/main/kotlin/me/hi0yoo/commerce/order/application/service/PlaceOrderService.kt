@@ -14,7 +14,7 @@ import me.hi0yoo.commerce.order.domain.Customer
 import me.hi0yoo.commerce.order.domain.DeliveryAddress
 import me.hi0yoo.commerce.order.domain.Order
 import me.hi0yoo.commerce.order.domain.OrderRepository
-import me.hi0yoo.commerce.order.domain.ProductInfo
+import me.hi0yoo.commerce.order.domain.OrderProductSpec
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -69,7 +69,6 @@ class PlaceOrderService(
         // 주문 상품 정보 조회
         val productOptionIds = command.productQuantities.map { it.productOptionId }
 
-        log.info("Calling ProductQueryPort.getProductDetails for {} items", productOptionIds.size)
         val queryStart = System.currentTimeMillis()
         val productDetails = try {
             productOptionSnapshotReaderPort.fetchSnapshots(ProductOptionSnapshotQuery(productOptionIds))
@@ -108,17 +107,20 @@ class PlaceOrderService(
                     customer,
                     deliveryAddress,
                     productDetails.map {
-                        ProductInfo(
-                            it.productOptionId,
-                            it.productName,
-                            it.optionName,
-                            it.price
+                        OrderProductSpec(
+                            productId = it.productId,
+                            productName = it.productName,
+                            price = it.price,
+                            optionId = it.productOptionId,
+                            optionName = it.optionName,
+                            additionalPrice = it.additionalPrice,
+                            productVendorId = it.vendorId,
                         )
                     },
                     command.productQuantities.map {
                         Pair(it.productOptionId, it.quantity)
                     },
-                    { snowflake.nextId() },
+                    snowflake::nextId,
                 )
             ).also { log.info("OrderRepository.save completed in {}ms", System.currentTimeMillis() - orderStart) }
         } catch (e: Exception) {

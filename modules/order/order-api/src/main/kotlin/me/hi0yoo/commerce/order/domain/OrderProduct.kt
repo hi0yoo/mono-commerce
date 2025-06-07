@@ -6,7 +6,7 @@ import jakarta.persistence.*
 class OrderProduct(
     id: Long,
     order: Order,
-    productInfo: ProductInfo,
+    orderProductSpec: OrderProductSpec,
     quantity: Int,
 ) {
     @Id
@@ -17,11 +17,15 @@ class OrderProduct(
     @JoinColumn(name = "order_id", columnDefinition = "varchar(20)", nullable = false, foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     val order = order
 
-    val productId: Long = productInfo.id
-    val productName = productInfo.productName
-    val optionName = productInfo.optionName
-    val optionPrice: Int = productInfo.optionPrice
+    val productId: Long = orderProductSpec.productId
+    val productName = orderProductSpec.productName
+    val price = orderProductSpec.price
+    val optionId: Long = orderProductSpec.optionId
+    val optionName = orderProductSpec.optionName
+    val additionalPrice: Int = orderProductSpec.additionalPrice
     val quantity: Int = quantity
+
+    val productVendorId: String = orderProductSpec.productVendorId
 
     @Enumerated(EnumType.STRING)
     var orderProductStatus: OrderProductStatus = OrderProductStatus.PENDING
