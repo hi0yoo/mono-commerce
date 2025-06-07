@@ -46,21 +46,21 @@
 ### common
 공통 모듈로, 여러 도메인에서 재사용 가능한 유틸리티 또는 공통 기능을 제공합니다.
 
-- `auth`: 인증 관련 공통 모듈입니다. 현재는 인증 시스템을 구현하지 않았으며, 인터페이스와 `FakeUserContext` 컴포넌트를 통해 테스트용 유저 정보를 제공합니다.
-- `snowflake`: 유니크한 ID를 생성할 수 있는 Snowflake 기반 ID 생성기입니다.
+- auth: 인증 관련 공통 모듈입니다. 현재는 인증 시스템을 구현하지 않았으며, 인터페이스와 `FakeUserContext` 컴포넌트를 통해 테스트용 유저 정보를 제공합니다.
+- snowflake: 유니크한 ID를 생성할 수 있는 Snowflake 기반 ID 생성기입니다.
 
 
 ### order
 주문 도메인의 요구사항을 달성하기 위한 하위 모듈을 관리합니다.
 
-- `order-api`: 주문 도메인의 API 및 비즈니스 로직을 포함하는 모듈입니다.
+- [order-api](modules/order/order-api/README.md): 주문 도메인의 API 및 비즈니스 로직을 포함하는 모듈입니다.
 
 
 ### product
 상품 도메인의 요구사항을 달성하기 위한 하위 모듈을 관리합니다.
 
-- `product-api`: 상품 도메인의 API를 담당합니다.
-- `product-core`: 상품 도메인의 핵심 비즈니스 모델 및 로직을 관리합니다.  
+- [product-api](modules/product/product-api/README.md): 상품 도메인의 API를 담당합니다.
+- [product-core](modules/product/product-core/README.md): 상품 도메인의 핵심 비즈니스 모델 및 로직을 관리합니다.  
 
 > 📌 **모듈 네이밍 규칙**  
 > 도메인 요구사항을 충족시키기 위해 신규 모듈이 필요하면 다음과 같이 추가할 수 있습니다.  
