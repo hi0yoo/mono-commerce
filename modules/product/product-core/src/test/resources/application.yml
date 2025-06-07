@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:15432/commerce
+    username: root
+    password:
+    hikari:
+      maximum-pool-size: 300
+      minimum-idle: 40
+      idle-timeout: 10000
+      max-lifetime: 1800000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false

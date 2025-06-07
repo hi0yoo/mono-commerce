@@ -20,4 +20,6 @@ dependencies {
     implementation(project(":modules:common:snowflake"))
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testRuntimeOnly("org.postgresql:postgresql")
+    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.3")
 }
