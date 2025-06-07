@@ -1,7 +1,7 @@
 services:
   commerce-app:
     build:
-      context: ../..
+      context: ../../modules/app
       dockerfile: Dockerfile
     networks:
       - commerce-net
