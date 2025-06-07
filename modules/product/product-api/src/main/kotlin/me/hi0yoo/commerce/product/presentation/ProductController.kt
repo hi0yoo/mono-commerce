@@ -28,13 +28,16 @@ class ProductController(
     @GetMapping
     fun handleQueryProductListPage(@ModelAttribute request: ProductSearchRequest): ProductPagedListApiResponse {
         val start = System.currentTimeMillis()
-        val productSummaryResponses = fetchProductPagedListUseCase.fetchPagedList(request.toQuery()).map { it.toResponse() }
+        val results = fetchProductPagedListUseCase.fetchPagedList(request.toQuery())
 
         val response = ProductPagedListApiResponse(
-            page = request.page,
-            size = request.size,
-            total = productSummaryResponses.size,
-            products = productSummaryResponses,
+            page = results.page,
+            size = results.size,
+            totalPages = results.totalPages,
+            totalElements = results.totalElements,
+            hasNext = results.hasNext,
+            hasPrevious = results.hasPrevious,
+            products = results.content.map { it.toResponse() },
         )
 
         log.info(

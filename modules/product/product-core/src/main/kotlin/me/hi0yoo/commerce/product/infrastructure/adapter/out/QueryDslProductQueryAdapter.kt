@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import me.hi0yoo.commerce.product.application.dto.CategoryResult
 import me.hi0yoo.commerce.product.application.dto.ProductDetailResult
 import me.hi0yoo.commerce.product.application.dto.ProductOptionResult
+import me.hi0yoo.commerce.product.application.dto.ProductPageResult
 import me.hi0yoo.commerce.product.application.dto.ProductPagedListQuery
 import me.hi0yoo.commerce.product.application.dto.ProductPagedListResult
 import me.hi0yoo.commerce.product.application.port.out.ProductQueryPort
@@ -20,7 +21,7 @@ class QueryDslProductQueryAdapter(
     private val jpaQueryFactory: JPAQueryFactory,
 ): ProductQueryPort {
 
-    override fun findPagedListByCondition(query: ProductPagedListQuery): List<ProductPagedListResult> {
+    override fun findPagedListByCondition(query: ProductPagedListQuery): ProductPageResult {
         val qProduct = QProduct.product
         val qVendor = QVendor.vendor
         val qCategory = qProduct.category
@@ -115,7 +116,26 @@ class QueryDslProductQueryAdapter(
             )
         }
 
-        return results
+        // 전체 개수 count
+        val totalElements = jpaQueryFactory
+            .select(qProduct.count())
+            .from(qProduct)
+            .where(*whereConditions.toTypedArray())
+            .fetchOne() ?: 0L
+        // 페이징 계산
+        val totalPages = if (totalElements == 0L) 1 else ((totalElements + query.size - 1) / query.size).toInt()
+        val hasPrevious = query.page > 0
+        val hasNext = (query.page + 1) * query.size < totalElements
+
+        return ProductPageResult(
+            page = query.page,
+            size = query.size,
+            totalPages = totalPages,
+            totalElements = totalElements,
+            hasNext = hasPrevious,
+            hasPrevious = hasNext,
+            content = results,
+        )
     }
 
     override fun findDetailById(productId: Long): ProductDetailResult? {

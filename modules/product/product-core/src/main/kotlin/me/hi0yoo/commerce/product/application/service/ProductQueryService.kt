@@ -2,8 +2,8 @@ package me.hi0yoo.commerce.product.application.service
 
 import me.hi0yoo.commerce.product.application.dto.ProductDetailResult
 import me.hi0yoo.commerce.product.application.dto.ProductDetailQuery
+import me.hi0yoo.commerce.product.application.dto.ProductPageResult
 import me.hi0yoo.commerce.product.application.dto.ProductPagedListQuery
-import me.hi0yoo.commerce.product.application.dto.ProductPagedListResult
 import me.hi0yoo.commerce.product.application.port.out.ProductQueryPort
 import me.hi0yoo.commerce.product.application.port.`in`.FetchProductDetailUseCase
 import me.hi0yoo.commerce.product.application.port.`in`.FetchProductPagedListUseCase
@@ -17,7 +17,7 @@ class ProductQueryService(
     private val productQueryPort: ProductQueryPort
 ): FetchProductPagedListUseCase, FetchProductDetailUseCase {
 
-    override fun fetchPagedList(query: ProductPagedListQuery): List<ProductPagedListResult> {
+    override fun fetchPagedList(query: ProductPagedListQuery): ProductPageResult {
         return productQueryPort.findPagedListByCondition(query)
     }
 
