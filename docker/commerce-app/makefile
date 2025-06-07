@@ -1,5 +1,5 @@
 commerce-up:
-	docker compose up -d
+	docker compose -f docker-compose-single.yml up -d --build
 
 commerce-down:
 	docker compose down
