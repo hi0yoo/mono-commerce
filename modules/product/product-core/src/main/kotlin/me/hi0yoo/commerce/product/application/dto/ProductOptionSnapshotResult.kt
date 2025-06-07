@@ -10,5 +10,5 @@ data class ProductOptionSnapshotResult(
     val additionalPrice: Int,
 
     val vendorId: String,
-//    val vendorName: String,
+    val vendorName: String,
 )

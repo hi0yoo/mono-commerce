@@ -8,5 +8,5 @@ data class ProductPagedListResult(
     val vendorId: String,
     val vendorName: String,
     val category: CategoryResult,
-    val badges: List<String>,
+    val badges: List<String> = emptyList(),
 )
