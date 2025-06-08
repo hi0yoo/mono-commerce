@@ -22,14 +22,10 @@ spring:
       minimum-idle: 40
       idle-timeout: 10000
       max-lifetime: 1800000
-  h2:
-    console:
-      enabled: true
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: update
-    show-sql: true
   data:
     redis:
       host: 127.0.0.1
@@ -43,6 +39,11 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
 
 logging:
   file:

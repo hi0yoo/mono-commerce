@@ -28,12 +28,28 @@
         </encoder>
     </appender>
 
+    <!--  SQL log 파일 appender  -->
+    <appender name="SQL_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/sql-log.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${FILE_LOG_CHARSET}</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/sql-log.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+    </appender>
+
     <!-- 줄여서 로거 이름 출력 (예: o.s.o.j.p.ClassName) -->
 <!--    <logger name="ROOT" level="INFO">-->
 <!--        <abbreviator class="ch.qos.logback.classic.pattern.TargetLengthBasedClassNameAbbreviator">-->
 <!--            <param name="targetLength" value="36"/>-->
 <!--        </abbreviator>-->
 <!--    </logger>-->
+    <logger name="p6spy" level="DEBUG" additivity="false">
+        <appender-ref ref="SQL_FILE" />
+    </logger>
 
     <springProfile name="default">
         <root level="INFO">
@@ -42,7 +58,7 @@
         </root>
     </springProfile>
 
-    <springProfile name="single,prod">
+    <springProfile name="prod">
         <root level="INFO">
             <appender-ref ref="FILE"/>
         </root>

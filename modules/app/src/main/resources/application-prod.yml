@@ -21,19 +21,21 @@ spring:
       minimum-idle: 40
       idle-timeout: 10000
       max-lifetime: 1800000
-  h2:
-    console:
-      enabled: true
+
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: update
-  #    show-sql: true
   data:
     redis:
       # 컨테이너 내부에서 요청하기 때문에 내부 포트 사용해야 함
       host: commerce-redis
       port: 6379
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
 
 logging:
   file:
