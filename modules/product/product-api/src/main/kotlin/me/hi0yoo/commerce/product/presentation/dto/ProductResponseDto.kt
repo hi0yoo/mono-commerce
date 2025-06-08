@@ -1,4 +1,4 @@
-package me.hi0yoo.commerce.product.presentation
+package me.hi0yoo.commerce.product.presentation.dto
 
 data class ProductPagedListApiResponse(
     val page: Int,
@@ -11,7 +11,7 @@ data class ProductPagedListApiResponse(
 )
 
 data class ProductSummaryResponse(
-    val productId: Long,
+    val productId: String,
     val name: String,
     val thumbnailUrl: String,
     val price: Int,
@@ -47,4 +47,9 @@ data class ProductOptionResponse(
     val name: String,
     val additionalPrice: Int,
     val availableStock: Int?  // null 이면 5개 초과
+)
+
+data class ProductSearchByCursorResponse(
+    val hasNext: Boolean,
+    val products: List<ProductSummaryResponse>
 )

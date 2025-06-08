@@ -16,6 +16,8 @@ dependencies {
 
     runtimeOnly("org.postgresql:postgresql")
 
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.tngtech.archunit:archunit:1.2.1")
     testImplementation("com.tngtech.archunit:archunit-junit5:1.2.1")

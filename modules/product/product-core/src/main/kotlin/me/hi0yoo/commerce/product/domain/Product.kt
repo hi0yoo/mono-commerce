@@ -11,11 +11,19 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
 import jakarta.persistence.ForeignKey
 import jakarta.persistence.Id
+import jakarta.persistence.Index
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
+import jakarta.persistence.Table
 
 @Entity
+@Table(
+    name = "product",
+    indexes = [
+        Index(name = "idx_product_category_id", columnList = "category_id")
+    ]
+)
 class Product(
     id: Long,
     name: String,

@@ -14,8 +14,10 @@ import me.hi0yoo.commerce.product.application.port.out.ProductQueryPort
 import me.hi0yoo.commerce.product.domain.QProduct
 import me.hi0yoo.commerce.product.domain.QProductOption
 import me.hi0yoo.commerce.product.infrastructure.vendor.QVendor
+import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Repository
 
+@Primary
 @Repository
 class QueryDslProductQueryAdapter(
     private val jpaQueryFactory: JPAQueryFactory,

@@ -8,9 +8,11 @@ import me.hi0yoo.commerce.product.application.port.out.ProductQueryPort
 import me.hi0yoo.commerce.product.application.port.`in`.FetchProductDetailUseCase
 import me.hi0yoo.commerce.product.application.port.`in`.FetchProductPagedListUseCase
 import me.hi0yoo.commerce.product.domain.ProductNotFountException
+import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+@Primary
 @Service
 @Transactional(readOnly = true)
 class ProductQueryService(

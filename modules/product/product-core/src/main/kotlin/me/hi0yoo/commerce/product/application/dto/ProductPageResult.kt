@@ -9,14 +9,3 @@ data class ProductPageResult(
     val hasPrevious: Boolean,
     val content: List<ProductPagedListResult>,
 )
-
-data class ProductPagedListResult(
-    val productId: Long,
-    val name: String,
-    val thumbnailUrl: String,
-    val price: Int,
-    val vendorId: String,
-    val vendorName: String,
-    val category: CategoryResult,
-    val badges: List<String> = emptyList(),
-)
